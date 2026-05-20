@@ -42,12 +42,14 @@
     "sources_checked": {
       "type": "object",
       "description": "Trạng thái mỗi nguồn đã check",
-      "required": ["youtube", "docs", "blog", "x_twitter"],
+      "required": ["youtube", "docs", "blog", "x_twitter", "github", "product"],
       "properties": {
         "youtube": { "$ref": "#/$defs/source_status" },
         "docs": { "$ref": "#/$defs/source_status" },
         "blog": { "$ref": "#/$defs/source_status" },
-        "x_twitter": { "$ref": "#/$defs/source_status" }
+        "x_twitter": { "$ref": "#/$defs/source_status" },
+        "github": { "$ref": "#/$defs/source_status" },
+        "product": { "$ref": "#/$defs/source_status" }
       }
     },
     "items": {
@@ -93,7 +95,7 @@
         },
         "source_type": {
           "type": "string",
-          "enum": ["youtube", "docs", "blog", "x_twitter"]
+          "enum": ["youtube", "docs", "blog", "x_twitter", "github", "product"]
         },
         "title_en": { "type": "string" },
         "title_vi": { "type": "string" },
