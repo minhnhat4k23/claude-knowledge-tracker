@@ -1,0 +1,156 @@
+{
+  "date": "2026-05-20",
+  "checked_at": "2026-05-20T17:00:00+07:00",
+  "summary": {
+    "total_items": 2,
+    "highlight_vi": "Anthropic phát hành video demo Claude Code hooks và blog post về cải tiến extended thinking trong Claude Opus 4.7",
+    "highlight_en": "Anthropic released a Claude Code hooks demo video and a blog post about extended thinking improvements in Claude Opus 4.7",
+    "has_major_update": true
+  },
+  "sources_checked": {
+    "youtube": { "checked": true, "new_items_found": 1 },
+    "docs": { "checked": true, "new_items_found": 0 },
+    "blog": { "checked": true, "new_items_found": 1 },
+    "x_twitter": { "checked": true, "new_items_found": 0 }
+  },
+  "items": [
+    {
+      "id": "2026-05-20-youtube-001",
+      "source_type": "youtube",
+      "title_en": "Claude Code Hooks: Automate Your Development Workflow",
+      "title_vi": "Claude Code Hooks: Tự động hóa quy trình phát triển của bạn",
+      "url": "https://youtube.com/watch?v=EXAMPLE_ID",
+      "published_date": "2026-05-19",
+      "thumbnail_url": "https://i.ytimg.com/vi/EXAMPLE_ID/maxresdefault.jpg",
+      "duration": "12:34",
+      "analysis": {
+        "summary_vi": "Video demo chi tiết cách sử dụng hooks trong Claude Code để tự động hóa các tác vụ lặp đi lặp lại. Trình bày 3 use cases chính: auto-lint trước commit, auto-test sau khi edit file, và custom notification khi build thành công.",
+        "summary_en": "Detailed demo of Claude Code hooks for automating repetitive tasks. Covers 3 main use cases: auto-lint before commit, auto-test after file edits, and custom notifications on successful builds.",
+        "key_points": [
+          {
+            "point_vi": "Hooks cho phép chạy shell commands tự động trước/sau các sự kiện trong Claude Code",
+            "point_en": "Hooks allow running shell commands automatically before/after events in Claude Code"
+          },
+          {
+            "point_vi": "Cấu hình hooks trong .claude/settings.json, hỗ trợ cả project-level và global-level",
+            "point_en": "Configure hooks in .claude/settings.json, supports both project-level and global-level"
+          },
+          {
+            "point_vi": "Hook có thể block hoặc modify tool calls — hữu ích cho security và quality gates",
+            "point_en": "Hooks can block or modify tool calls — useful for security and quality gates"
+          }
+        ],
+        "features_mentioned": [
+          {
+            "name": "Claude Code Hooks",
+            "description_vi": "Cơ chế cho phép chạy shell scripts tự động khi các sự kiện xảy ra trong Claude Code",
+            "is_new": false,
+            "status": "released"
+          },
+          {
+            "name": "Pre-tool-use hooks",
+            "description_vi": "Hook chạy TRƯỚC khi Claude thực hiện tool call, có thể chặn hoặc sửa đổi",
+            "is_new": false,
+            "status": "released"
+          }
+        ],
+        "workflow": {
+          "description_vi": "Workflow thiết lập auto-lint hook: khi Claude edit file .ts, tự động chạy ESLint trước khi save",
+          "steps": [
+            {
+              "step": 1,
+              "action_en": "Create .claude/settings.json in project root",
+              "action_vi": "Tạo file .claude/settings.json ở thư mục gốc project",
+              "detail": "Nếu file đã tồn tại, thêm section hooks vào"
+            },
+            {
+              "step": 2,
+              "action_en": "Define hook with event trigger and command",
+              "action_vi": "Định nghĩa hook với event trigger và command cần chạy",
+              "detail": "Event: post:edit-write, Command: npx eslint --fix $FILE"
+            },
+            {
+              "step": 3,
+              "action_en": "Test by asking Claude to edit a TypeScript file",
+              "action_vi": "Test bằng cách yêu cầu Claude edit một file TypeScript",
+              "detail": "Observe hook tự động chạy sau khi file được edit"
+            }
+          ],
+          "input": "settings.json cấu hình hook",
+          "output": "Code tự động được lint sau mỗi lần Claude edit",
+          "tools_used": ["Claude Code CLI", "ESLint", "settings.json"]
+        },
+        "code_examples": [
+          {
+            "language": "json",
+            "code": "{\n  \"hooks\": {\n    \"post:edit-write\": [\n      {\n        \"command\": \"npx eslint --fix $FILE\",\n        \"match\": \"**/*.ts\"\n      }\n    ]\n  }\n}",
+            "explanation_vi": "Cấu hình hook chạy ESLint auto-fix sau mỗi lần Claude edit file .ts",
+            "context": "Demo thiết lập auto-lint hook cơ bản"
+          }
+        ],
+        "before_after": {
+          "before_vi": "Phải tự chạy lint thủ công sau mỗi lần Claude edit code",
+          "after_vi": "Lint tự động chạy sau MỌI edit, đảm bảo code luôn clean",
+          "improvement_vi": "Tiết kiệm thời gian và đảm bảo consistency"
+        },
+        "design_thinking_vi": "Anthropic thiết kế hooks như một extensibility layer — thay vì hard-code mọi thứ, cho phép users tự customize behavior thông qua shell scripts. Triết lý Unix: compose với tools khác.",
+        "timestamps": [
+          { "time": "00:00", "topic": "Giới thiệu hooks là gì" },
+          { "time": "02:15", "topic": "Use case 1: Auto-lint" },
+          { "time": "06:30", "topic": "Use case 2: Auto-test" },
+          { "time": "09:45", "topic": "Use case 3: Custom notifications" },
+          { "time": "11:20", "topic": "Tips và best practices" }
+        ]
+      },
+      "categories": ["coding", "workflow", "tutorial"],
+      "tags": ["claude-code", "hooks", "automation", "eslint", "settings"],
+      "relevance_score": 6,
+      "related_items": ["2026-05-20-blog-001"]
+    },
+    {
+      "id": "2026-05-20-blog-001",
+      "source_type": "blog",
+      "title_en": "Advancing Extended Thinking in Claude Opus 4.7",
+      "title_vi": "Nâng cao Extended Thinking trong Claude Opus 4.7",
+      "url": "https://anthropic.com/news/EXAMPLE_SLUG",
+      "published_date": "2026-05-20",
+      "analysis": {
+        "summary_vi": "Blog post giải thích các cải tiến kỹ thuật trong extended thinking của Claude Opus 4.7. Thinking budget được tối ưu hóa giúp giảm 30% token mà không giảm chất lượng reasoning.",
+        "summary_en": "Blog post explaining technical improvements to extended thinking in Claude Opus 4.7. Thinking budget optimization reduces token usage by 30% without quality loss.",
+        "key_points": [
+          {
+            "point_vi": "Extended thinking giờ tiêu tốn ít token hơn 30% nhờ thuật toán phân bổ budget mới",
+            "point_en": "Extended thinking now uses 30% fewer tokens thanks to new budget allocation algorithm"
+          },
+          {
+            "point_vi": "API hỗ trợ streaming thinking tokens — hiển thị quá trình suy nghĩ real-time",
+            "point_en": "API supports streaming thinking tokens — display reasoning process in real-time"
+          }
+        ],
+        "features_mentioned": [
+          {
+            "name": "Optimized Extended Thinking",
+            "description_vi": "Extended thinking tối ưu, dùng ít token hơn 30% mà chất lượng tương đương",
+            "is_new": false,
+            "status": "released"
+          },
+          {
+            "name": "Thinking Token Streaming",
+            "description_vi": "Stream thinking tokens qua API, hiển thị quá trình suy nghĩ theo thời gian thực",
+            "is_new": true,
+            "status": "beta"
+          }
+        ],
+        "design_thinking_vi": "Anthropic tập trung vào efficiency — tối ưu cách Claude dùng thinking budget thay vì tăng budget. Hướng đi: AI thông minh hơn trong cùng budget."
+      },
+      "categories": ["thinking", "api_update", "feature"],
+      "tags": ["extended-thinking", "opus", "token-optimization", "streaming", "api"],
+      "relevance_score": 8,
+      "related_items": ["2026-05-20-youtube-001"]
+    }
+  ],
+  "metadata": {
+    "tracker_version": "1.0.0",
+    "generated_by": "Claude Code Scheduled Routine"
+  }
+}

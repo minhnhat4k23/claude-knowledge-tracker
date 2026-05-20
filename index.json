@@ -1,0 +1,7 @@
+{
+  "project": "Claude Knowledge Tracker",
+  "created": "2026-05-20",
+  "description": "Bảng cập nhật kiến thức hàng ngày về Claude AI từ các nguồn chính thức của Anthropic",
+  "schedule": "daily 17:00 GMT+7",
+  "entries": []
+}

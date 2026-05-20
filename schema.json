@@ -1,0 +1,212 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Claude Knowledge Tracker - Daily Report",
+  "description": "Schema cho file JSON cập nhật hàng ngày về Claude/Anthropic",
+  "type": "object",
+  "required": ["date", "checked_at", "summary", "sources_checked", "items", "metadata"],
+  "properties": {
+    "date": {
+      "type": "string",
+      "format": "date",
+      "description": "Ngày báo cáo (YYYY-MM-DD)",
+      "examples": ["2026-05-20"]
+    },
+    "checked_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Timestamp chính xác lúc check (ISO 8601, GMT+7)",
+      "examples": ["2026-05-20T17:00:00+07:00"]
+    },
+    "summary": {
+      "type": "object",
+      "required": ["total_items", "highlight_vi", "highlight_en", "has_major_update"],
+      "properties": {
+        "total_items": {
+          "type": "integer",
+          "description": "Tổng số items mới tìm được"
+        },
+        "highlight_vi": {
+          "type": "string",
+          "description": "Tóm tắt 1-2 câu điểm nổi bật hôm nay (tiếng Việt)"
+        },
+        "highlight_en": {
+          "type": "string",
+          "description": "Same highlight in English"
+        },
+        "has_major_update": {
+          "type": "boolean",
+          "description": "true nếu có item nào relevance_score >= 8"
+        }
+      }
+    },
+    "sources_checked": {
+      "type": "object",
+      "description": "Trạng thái mỗi nguồn đã check",
+      "required": ["youtube", "docs", "blog", "x_twitter"],
+      "properties": {
+        "youtube": { "$ref": "#/$defs/source_status" },
+        "docs": { "$ref": "#/$defs/source_status" },
+        "blog": { "$ref": "#/$defs/source_status" },
+        "x_twitter": { "$ref": "#/$defs/source_status" }
+      }
+    },
+    "items": {
+      "type": "array",
+      "description": "Danh sách tất cả items mới, sắp xếp theo relevance_score giảm dần",
+      "items": { "$ref": "#/$defs/knowledge_item" }
+    },
+    "metadata": {
+      "type": "object",
+      "properties": {
+        "tracker_version": {
+          "type": "string",
+          "const": "1.0.0"
+        },
+        "generated_by": {
+          "type": "string"
+        }
+      }
+    }
+  },
+  "$defs": {
+    "source_status": {
+      "type": "object",
+      "required": ["checked", "new_items_found"],
+      "properties": {
+        "checked": { "type": "boolean" },
+        "new_items_found": { "type": "integer" },
+        "error": { "type": "string" }
+      }
+    },
+    "knowledge_item": {
+      "type": "object",
+      "required": [
+        "id", "source_type", "title_en", "title_vi", "url",
+        "published_date", "analysis", "categories", "tags",
+        "relevance_score"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Format: {YYYY-MM-DD}-{source_type}-{NNN}",
+          "examples": ["2026-05-20-youtube-001"]
+        },
+        "source_type": {
+          "type": "string",
+          "enum": ["youtube", "docs", "blog", "x_twitter"]
+        },
+        "title_en": { "type": "string" },
+        "title_vi": { "type": "string" },
+        "url": { "type": "string", "format": "uri" },
+        "published_date": { "type": "string", "format": "date" },
+        "thumbnail_url": { "type": "string", "format": "uri" },
+        "duration": {
+          "type": "string",
+          "description": "Video duration: MM:SS or HH:MM:SS"
+        },
+        "analysis": {
+          "type": "object",
+          "required": ["summary_vi", "summary_en", "key_points"],
+          "properties": {
+            "summary_vi": { "type": "string" },
+            "summary_en": { "type": "string" },
+            "key_points": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "point_vi": { "type": "string" },
+                  "point_en": { "type": "string" }
+                }
+              }
+            },
+            "features_mentioned": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "name": { "type": "string" },
+                  "description_vi": { "type": "string" },
+                  "is_new": { "type": "boolean" },
+                  "status": {
+                    "type": "string",
+                    "enum": ["released", "beta", "preview", "announced", "deprecated"]
+                  }
+                }
+              }
+            },
+            "workflow": {
+              "type": "object",
+              "properties": {
+                "description_vi": { "type": "string" },
+                "steps": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "step": { "type": "integer" },
+                      "action_en": { "type": "string" },
+                      "action_vi": { "type": "string" },
+                      "detail": { "type": "string" }
+                    }
+                  }
+                },
+                "input": { "type": "string" },
+                "output": { "type": "string" },
+                "tools_used": { "type": "array", "items": { "type": "string" } }
+              }
+            },
+            "code_examples": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "language": { "type": "string" },
+                  "code": { "type": "string" },
+                  "explanation_vi": { "type": "string" },
+                  "context": { "type": "string" }
+                }
+              }
+            },
+            "before_after": {
+              "type": "object",
+              "properties": {
+                "before_vi": { "type": "string" },
+                "after_vi": { "type": "string" },
+                "improvement_vi": { "type": "string" }
+              }
+            },
+            "design_thinking_vi": {
+              "type": "string",
+              "description": "Phân tích tại sao Anthropic thiết kế như vậy"
+            },
+            "timestamps": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "time": { "type": "string" },
+                  "topic": { "type": "string" }
+                }
+              }
+            }
+          }
+        },
+        "categories": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "model_release", "api_update", "feature", "pricing",
+              "workflow", "thinking", "tool_use", "coding",
+              "safety", "research", "tutorial", "ecosystem"
+            ]
+          }
+        },
+        "tags": { "type": "array", "items": { "type": "string" } },
+        "relevance_score": { "type": "integer", "minimum": 1, "maximum": 10 },
+        "related_items": { "type": "array", "items": { "type": "string" } }
+      }
+    }
+  }
+}
